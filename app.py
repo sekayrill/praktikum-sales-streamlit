@@ -8,7 +8,7 @@ st.title("Dashboard Penjualan - Superstore")
 # Load dan Preprocessing Data
 @st.cache_data
 def load_data():
-    df = pd.read_csv("Superstore.csv", encoding='latin1')
+    df = pd.read_csv("superstore.csv", encoding='latin1')
 
     # Konversi tanggal
     df['Order Date'] = pd.to_datetime(df['Order Date'], errors='coerce')
@@ -32,10 +32,10 @@ def load_data():
 df = load_data()
 
 # =====================
-# 📌 FILTER KATEGORI
+#  FILTER KATEGORI
 # =====================
 kategori_terpilih = st.sidebar.multiselect(
-    "🔎 Pilih Kategori Produk:",
+    " Pilih Kategori Produk:",
     options=df["Category"].unique(),
     default=df["Category"].unique()
 )
@@ -44,15 +44,15 @@ kategori_terpilih = st.sidebar.multiselect(
 filtered_df = df[df["Category"].isin(kategori_terpilih)]
 
 # =====================
-# 📋 TAMPILKAN DATA
+#  TAMPILKAN DATA
 # =====================
-st.subheader("📄 Data Penjualan")
+st.subheader("Data Penjualan")
 st.dataframe(filtered_df)
 
 # =====================
-# 📈 TREND PENJUALAN BULANAN
+#  TREND PENJUALAN BULANAN
 # =====================
-st.subheader("📊 Trend Penjualan Bulanan")
+st.subheader("Trend Penjualan Bulanan")
 monthly_sales = filtered_df.groupby("Month")["Sales"].sum().reset_index()
 
 fig1, ax1 = plt.subplots(figsize=(10, 5))
@@ -64,9 +64,9 @@ plt.xticks(rotation=45)
 st.pyplot(fig1)
 
 # =====================
-# 📉 PROFITABILITAS PER KATEGORI
+#  PROFITABILITAS PER KATEGORI
 # =====================
-st.subheader("📊 Profitabilitas per Kategori Produk")
+st.subheader("Profitabilitas per Kategori Produk")
 category_profit = filtered_df.groupby("Category")["Profit"].sum().reset_index()
 
 fig2, ax2 = plt.subplots(figsize=(6, 4))
@@ -77,7 +77,7 @@ ax2.set_ylabel("Total Profit")
 st.pyplot(fig2)
 
 # =====================
-# 📊 METRIK TOTAL PROFIT
+#  METRIK TOTAL PROFIT
 # =====================
 total_profit = filtered_df['Profit'].sum()
-st.metric("💰 Total Profit", f"${total_profit:,.2f}")
+st.metric("Total Profit", f"${total_profit:,.2f}")
